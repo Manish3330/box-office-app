@@ -1,22 +1,28 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home.jsx';
-import Starred from './pages/Starred.jsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Home from './pages/Home';
+import Starred from './pages/Starred';
+import Show from './pages/Show';
 import MainLayout from './components/MainLayout';
-import Show from './pages/Show.jsx';
+
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout/>}>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/starred" element={<Starred />}></Route>
-        </Route>
-        
-        <Route path="/show/:showId" element={<Show />} />
-        {/* : is used to create dynamic web link to the pages, here based on the show Id of wurl we are displaying Show  */}
-        <Route path="*" element={<div>Not found</div>}></Route>
-      </Routes>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/starred" element={<Starred />} />
+          </Route>
+
+          <Route path="/show/:showId" element={<Show />} />
+
+          <Route path="*" element={<div>Not found</div>} />
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
   );
 }
 
